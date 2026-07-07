@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+ï»¿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configurar banco de dados
 builder.Services.AddDbContext<AppDbContext>();
 
-// Configurar CORS (permitir requisições do cliente)
+// Configurar CORS (permitir requisiÃ§Ãµes do cliente)
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configurar autenticação JWT
+// Configurar autenticaÃ§Ã£o JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -55,10 +55,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// âœ… SWAGGER SEMPRE ATIVO (removido o if de Development)
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.Run();
