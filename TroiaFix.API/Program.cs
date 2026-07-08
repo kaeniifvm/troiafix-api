@@ -6,11 +6,11 @@ using TroiaFix.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ CORRETO: Usar connection string do appsettings.json
+// ✅ PostgreSQL (Neon.tech)
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configurar CORS
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configurar autenticação JWT
+// JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -43,20 +43,20 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Criar banco de dados automaticamente
+// Criar banco automaticamente
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
 }
 
-// Configurar pipeline
+// Pipeline
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Swagger sempre ativo
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
 
