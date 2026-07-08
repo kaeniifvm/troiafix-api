@@ -7,9 +7,13 @@ namespace TroiaFix.API.Data
     {
         public DbSet<License> Licenses { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            options.UseSqlite("Data Source=troiafix.db");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

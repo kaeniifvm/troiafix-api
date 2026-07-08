@@ -6,10 +6,11 @@ using TroiaFix.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar banco de dados
-builder.Services.AddDbContext<AppDbContext>();
+// ✅ CORRETO: Usar connection string do appsettings.json
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configurar CORS (permitir requisições do cliente)
+// Configurar CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -55,7 +56,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// ✅ SWAGGER SEMPRE ATIVO (removido o if de Development)
+// Swagger sempre ativo
 app.UseSwagger();
 app.UseSwaggerUI();
 
