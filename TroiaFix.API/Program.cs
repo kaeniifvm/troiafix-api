@@ -43,11 +43,11 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Criar banco automaticamente
+// ✅ Aplicar migrações automaticamente (cria tabelas no PostgreSQL)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
+    db.Database.Migrate();
 }
 
 // Pipeline
